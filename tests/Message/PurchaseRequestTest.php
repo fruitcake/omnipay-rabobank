@@ -25,7 +25,6 @@ class PurchaseRequestTest extends TestCase
     public function testGetData()
     {
         $this->request->setPaymentMethod('IDEAL');
-        $this->request->setOrderId('6');
         $this->request->setCustomerLanguage('EN');
 
         $data = $this->request->getData();
@@ -36,14 +35,14 @@ class PurchaseRequestTest extends TestCase
         $this->assertContains('keyVersion=ver', $data['Data']);
         $this->assertContains('normalReturnUrl=https://www.example.com/return', $data['Data']);
         $this->assertContains('automaticResponseUrl=https://www.example.com/return', $data['Data']);
-        $this->assertContains('transactionReference=5', $data['Data']);
+        $this->assertContains('orderId=5', $data['Data']);
         $this->assertContains('paymentMeanBrandList=IDEAL', $data['Data']);
-        $this->assertContains('orderId=6', $data['Data']);
         $this->assertContains('customerLanguage=EN', $data['Data']);
+        $this->assertContains('transactionReference=', $data['Data']);
 
         $this->assertSame('HP_1.0', $data['InterfaceVersion']);
     }
-    
+
     public function testGetDifferentNotififyUrl()
     {
         $this->request->setNotifyUrl('https://www.example.com/notify');
@@ -82,6 +81,7 @@ class PurchaseRequestTest extends TestCase
         $this->assertInstanceOf('\Omnipay\Rabobank\Message\PurchaseResponse', $response);
         $this->assertFalse($response->isSuccessful());
         $this->assertTrue($response->isRedirect());
+        $this->assertNotNull($response->getTransactionReference());
 
         $data = $response->getRedirectData();
         $this->assertArrayHasKey('Data', $data);
