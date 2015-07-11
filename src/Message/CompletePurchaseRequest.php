@@ -13,6 +13,10 @@ class CompletePurchaseRequest extends PurchaseRequest
     {
         $this->validate('secretKey');
 
+        if ($this->getTestMode()) {
+            $this->setSecretKey('002020000000001_KEY1');
+        }
+
         $data = $this->httpRequest->request->all();
 
         if ($this->generateSignature($data) !== $this->httpRequest->request->get('Seal')) {
