@@ -17,7 +17,7 @@ to your `composer.json` file:
 ```json
 {
     "require": {
-        "omnipay/rabobank": "~2.0"
+        "omnipay/rabobank": "~3.0@dev"
     }
 }
 ```
