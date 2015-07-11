@@ -17,7 +17,7 @@ class PurchaseRequest extends AbstractRequest
     {
         return $this->setParameter('paymentMethod', strtoupper($value));
     }
-    
+
     public function getMerchantId()
     {
         return $this->getParameter('merchantId');
@@ -68,9 +68,11 @@ class PurchaseRequest extends AbstractRequest
             $this->setSecretKey('002020000000001_KEY1');
             $this->setKeyVersion(1);
         }
-        
-        // Generate a unique hash for this transaction
-        $transactionReference = md5($this->getTransactionId() . uniqid());
+
+        if ( ! $this->getTransactionReference()) {
+            // Generate a unique reference for this transaction
+            $this->setTransactionReference(uniqid());
+        }
 
         $data = array();
         $data['Data'] = implode(
@@ -81,7 +83,7 @@ class PurchaseRequest extends AbstractRequest
                 'merchantId='.$this->getMerchantId(),
                 'normalReturnUrl='.$this->getReturnUrl(),
                 'automaticResponseUrl='.($this->getNotifyUrl() ?: $this->getReturnUrl()),
-                'transactionReference='.$transactionReference,
+                'transactionReference='.$this->getTransactionReference(),
                 'keyVersion='.$this->getKeyVersion(),
                 'paymentMeanBrandList='.$this->getPaymentMethod(),
                 'customerLanguage='.$this->getCustomerLanguage(),
