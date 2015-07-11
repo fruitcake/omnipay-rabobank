@@ -57,9 +57,8 @@ class PurchaseRequest extends AbstractRequest
     {
         $this->validate('merchantId', 'keyVersion', 'secretKey', 'amount', 'returnUrl', 'currency');
         
-        if (null === $this->getTransactionReference()) {
-            $this->setTransactionReference(md5(time() . $this->getTransactionId()));
-        }
+        // Generate a unique hash for this transaction
+        $transactionReference = md5($this->getTransactionId() . uniqid());
 
         $data = array();
         $data['Data'] = implode(
@@ -70,7 +69,7 @@ class PurchaseRequest extends AbstractRequest
                 'merchantId='.$this->getMerchantId(),
                 'normalReturnUrl='.$this->getReturnUrl(),
                 'automaticResponseUrl='.($this->getNotifyUrl() ?: $this->getReturnUrl()),
-                'transactionReference='.$this->getTransactionReference(),
+                'transactionReference='.$transactionReference,
                 'keyVersion='.$this->getKeyVersion(),
                 'paymentMeanBrandList='.$this->getPaymentMethod(),
                 'customerLanguage='.$this->getCustomerLanguage(),
