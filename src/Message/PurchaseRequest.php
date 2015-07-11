@@ -13,6 +13,11 @@ class PurchaseRequest extends AbstractRequest
     public $testEndpoint = 'https://payment-webinit.simu.omnikassa.rabobank.nl/paymentServlet';
     public $liveEndpoint = 'https://payment-webinit.omnikassa.rabobank.nl/paymentServlet';
 
+    public function setPaymentMethod($value)
+    {
+        return $this->setParameter('paymentMethod', strtoupper($value));
+    }
+    
     public function getMerchantId()
     {
         return $this->getParameter('merchantId');
