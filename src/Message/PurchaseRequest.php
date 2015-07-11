@@ -57,6 +57,13 @@ class PurchaseRequest extends AbstractRequest
     {
         $this->validate('merchantId', 'keyVersion', 'secretKey', 'amount', 'returnUrl', 'currency');
         
+        // Override merchantId/secretKey/keyVersion for testMode
+        if ($this->getTestMode()) {
+            $this->setMerchantId('002020000000001');
+            $this->setSecretKey('002020000000001_KEY1');
+            $this->setKeyVersion(1);
+        }
+        
         // Generate a unique hash for this transaction
         $transactionReference = md5($this->getTransactionId() . uniqid());
 
