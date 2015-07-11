@@ -1,5 +1,5 @@
 {
-    "name": "omnipay/rabobank",
+    "name": "fruitcakestudio/omnipay-rabobank",
     "type": "library",
     "description": "Rabobank Omnikassa driver for the Omnipay payment processing library",
     "keywords": [
@@ -18,6 +18,10 @@
         {
             "name": "Adrian Macneil",
             "email": "adrian@adrianmacneil.com"
+        },
+        {
+            "name": "Barry vd. Heuvel",
+            "email": "barry@fruitcakestudio.nl"
         },
         {
             "name": "Omnipay Contributors",
